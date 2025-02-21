@@ -8,7 +8,7 @@ function Home({ addToCart }){
   return(
     <>
     <div className="lg:min-h-screen bg-home mb-4" data-aos="fade-left">
-      <div class="grid place-items-center lg:place-items-end h-auto lg:h-96 pt-4 lg:pt-36 px-4 lg:px-32">
+      <div class="grid place-items-center lg:place-items-end h-auto lg:h-96 pt-4 lg:pt-36 px-4 lg:px-10">
         <div className="inline rounded-lg bg-[#FFF3E3] w-auto lg:w-[643px] h-auto lg:h-[443px] mb-4" data-aos="fade-up">
           <div className="p-4 lg:p-10">
             <h1 className="text-black font-semibold mb-2 text-lg lg:text-2xl">New Arival</h1>

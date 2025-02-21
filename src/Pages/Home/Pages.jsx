@@ -27,7 +27,7 @@ function Pages(){
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-10 items-center">
         {pages.map((item) => (
-        <div className="justify-self-center">
+        <div className="justify-self-center p-5">
           <img src={item.image}/>
           <h1 className="font-bold text-2xl text-center">{item.title}</h1>
         </div>

@@ -11,21 +11,23 @@ import image12 from "../../assets/image/galery/Rectangle 45.png";
 
 export default function Furniture(){
   return(
-    <div className="py-10 flex flex-col justify-center items-center gap-2" data-aos="fade-right">
-      <h1 className="text-2xl font-light">Share your setup with</h1>
-      <p className="text-3xl font-semibold mb-2">#FuniroFurniture</p>
-      <div className="flex flex-col lg:flex-row gap-4">
-        <img src={image4}/>
-        <img src={image6}/>
-        <img src={image8}/>
-        <img src={image10}/>
-        <img src={image12}/>
+    <div className="container mx-auto px-4 py-10 flex flex-col justify-center items-center gap-4 md:gap-6 lg:gap-8" data-aos="fade-right">
+      <h1 className="text-xl md:text-2xl font-light text-center">Share your setup with</h1>
+      <p className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 text-center">#FuniroFurniture</p>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 w-full">
+        <img src={image4} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image6} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image8} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image10} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image12} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
       </div>
-      <div className="flex flex-col lg:flex-row gap-4">
-        <img src={image5}/>
-        <img src={image7}/>
-        <img src={image9}/>
-        <img src={image11}/>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+        <img src={image5} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image7} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image9} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
+        <img src={image11} alt="Furniture setup" className="w-full h-64 object-cover rounded-lg hover:opacity-90 transition-opacity"/>
       </div>
     </div>
   );

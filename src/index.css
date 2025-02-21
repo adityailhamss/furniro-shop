@@ -10,3 +10,19 @@
 .bg-shop{
   background-image: url('./assets/image/Shop.png');
 }
+/* Add these styles for the slider */
+.explore-slider .slick-slide {
+  padding: 0 10px;
+}
+
+.explore-slider .slick-dots {
+  bottom: -40px;
+}
+
+.explore-slider .slick-dots li button:before {
+  color: #B88E2F;
+}
+
+.explore-slider .slick-dots li.slick-active button:before {
+  color: #B88E2F;
+}

@@ -13,34 +13,55 @@ export default function Explore() {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      }
+    ]
   };
 
   return (
     <div className="bg-[#FCF8F3]" data-aos="fade-up">
-      <div className="flex flex-col lg:flex-row pl-4 lg:pl-32 gap-8 min-h-screen items-center">
-        
-        <div className="flex flex-col gap-4">
-          <h1 className="font-bold text-4xl text-[#3A3A3A]">
-            50+ Beautiful rooms <br></br>
+      <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 h-[500px] lg:min-h-screen items-center">
+        <div className="flex flex-col gap-4 text-center lg:text-left w-full lg:w-1/3">
+          <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl text-[#3A3A3A]">
+            50+ Beautiful rooms<br className="hidden lg:block" />
             inspiration
           </h1>
-          <p className="font-normal text-base text-[#616161]">
-            Our designer already made a lot of beautiful<br></br>prototypes of rooms that inspire you
+          <p className="font-normal text-sm md:text-base text-[#616161]">
+            Our designer already made a lot of beautiful<br className="hidden lg:block" />
+            prototypes of rooms that inspire you
           </p>
-          <button className="w-[150px] bg-[#B88E2F] px-4 py-4 text-white">Explore More</button>
+          <button className="w-[150px] bg-[#B88E2F] px-4 py-4 text-white hover:bg-[#a17a25] transition-colors duration-300 mx-auto lg:mx-0">
+            Explore More
+          </button>
         </div>
 
-        <div className="w-[400px] lg:w-[900px] gap-4 relative">
-          <Slider {...settings} className="gap-4">
-            <div>
-              <img src={explore1} alt="Explore 2" className="w-full h-auto" />
-            </div>
-            <div>
-              <img src={explore2} alt="Explore 2" className="w-full h-auto" />
-            </div>
-            <div>
-              <img src={image1} alt="Image 1" className="w-full h-auto" />
-            </div>
+        <div className="w-full lg:w-2/3 px-4">
+          <Slider {...settings} className="explore-slider">
+            {[explore1, explore2, image1].map((image, index) => (
+              <div key={index} className="px-2">
+                <img 
+                  src={image} 
+                  alt={`Explore ${index + 1}`} 
+                  className="w-full h-[200px] md:h-[300px] lg:h-[400px] object-cover rounded-lg"
+                />
+              </div>
+            ))}
           </Slider>
         </div>
       </div>

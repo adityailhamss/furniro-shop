@@ -4,6 +4,7 @@ import { GoArrowSwitch } from "react-icons/go";
 import { CiHeart } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import { addToCartSuccess } from '../../alerts';
+import { formatPrice } from '../../utils/formatPrice';
 
 const ProductCard = ({ product, addToCart }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -41,11 +42,19 @@ const ProductCard = ({ product, addToCart }) => {
         <div className="font-bold text-xl mb-2">{product.name}</div>
         <p className="text-gray-700 text-base">{product.description}</p>
         <div className="flex flex-row gap-3">
-        <p className="text-xl text-gray-900">Rp {product.price}</p>
-        {product.originalPrice && (
+        
+        <div className="flex gap-2">
+          <span className="text-xl font-bold">{formatPrice(product.price)}</span>
+          {product.originalPrice && (
+            <span className="text-gray-400 line-through">
+              {formatPrice(product.originalPrice)}
+            </span>
+          )}
+        </div>
+        {/* {product.originalPrice && (
           <p className="text-lg text-gray-400 line-through">Rp {product.originalPrice}</p>
           
-        )}
+        )} */}
         </div>
       </div>
       <div className="px-6 pt-4 pb-2">
