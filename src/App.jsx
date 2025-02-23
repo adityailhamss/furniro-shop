@@ -9,7 +9,6 @@ import About from './Pages/About/About';
 import ProductDetails from './Pages/Home/ProductDetails';
 import CartDetails from './Pages/Cart/CartDetail';
 import Checkout from './Pages/Cart/Checkout';
-import Compare from './Pages/Compare/Compare';
 import Preloader from "./Pages/Pre";
 import ScrollToTop from "./Pages/ScrollToTop";
 import AOS from 'aos';
@@ -51,7 +50,6 @@ function App() {
         <Route path="/productdetails" element={<ProductDetails addToCart={addToCart}/>} />
         <Route path="/cartdetails" element={<CartDetails cartItems={cartItems}/>} />
         <Route path="/checkout" element={<Checkout cartItems={cartItems}/>} />
-        <Route path="/compareproduct" element={<Compare/>} />
       </Routes>
       <Footer />
       </div>

@@ -3,9 +3,8 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Logo from '../assets/logo/logo.png';
 import { BsPersonExclamation } from "react-icons/bs";
-import { CiSearch } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
-import { MdOutlineShoppingCart, MdOutlineInsertChart } from "react-icons/md";
+import { MdOutlineShoppingCart} from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import Modal from './Modal';
 import CartModal from './CartModal';
@@ -23,11 +22,14 @@ function classNames(...classes) {
 }
 
 const Navbar = ({ cartItems, setCartItems }) => {
+  // Remove search-related states
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('/');
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,11 +41,9 @@ const Navbar = ({ cartItems, setCartItems }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   const handleSetActiveLink = (href) => {
     setActiveLink(href);
   };
-
   return (
     <>
       <Disclosure as="nav" className={`sticky top-0 w-full p-2 z-50 ${scrollPosition > 0 ? 'bg-white bg-opacity-75 backdrop-blur-md' : 'bg-white'}`}>
@@ -101,9 +101,6 @@ const Navbar = ({ cartItems, setCartItems }) => {
                         <BsPersonExclamation size={20} />
                       </button>
                       <button className="p-2 hover:text-[#B88E2F] transition-colors duration-200">
-                        <CiSearch size={20} />
-                      </button>
-                      <button className="p-2 hover:text-[#B88E2F] transition-colors duration-200">
                         <CiHeart size={20} />
                       </button>
                     </div>
@@ -145,9 +142,7 @@ const Navbar = ({ cartItems, setCartItems }) => {
                   <button onClick={() => setIsLoginModalOpen(true)} className="p-2 hover:text-[#B88E2F]">
                     <BsPersonExclamation size={20} />
                   </button>
-                  <button className="p-2 hover:text-[#B88E2F]">
-                    <CiSearch size={20} />
-                  </button>
+                  {/* // In the mobile menu section: */}
                   <button className="p-2 hover:text-[#B88E2F]">
                     <CiHeart size={20} />
                   </button>
@@ -157,7 +152,27 @@ const Navbar = ({ cartItems, setCartItems }) => {
           </>
         )}
       </Disclosure>
-
+      {/* Add this before the final closing tag */}
+      <Modal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)}>
+        <div className="p-4">
+          <h2 className="text-xl font-bold mb-4">Search Products</h2>
+          <form className="flex flex-col gap-4">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by product name..."
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#B88E2F]"
+            />
+            <button
+              type="submit"
+              className="bg-white hover:bg-[#B88E2F] hover:text-white text-black py-2 px-4 rounded-md border-2 border-[#B88E2F] transition-colors duration-200"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </Modal>
       {/* Modals remain the same */}
       {/* Remove this modal since we're using LoginModal */}
       {/* <Modal isOpen={isPersonModalOpen} onClose={() => setIsPersonModalOpen(false)}>
@@ -169,7 +184,18 @@ const Navbar = ({ cartItems, setCartItems }) => {
       <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
       
       {/* Keep the CartModal */}
-      <CartModal isOpen={isCartModalOpen} onClose={() => setIsCartModalOpen(false)} cartItems={cartItems} setCartItems={setCartItems} />
+      {/* Update CartModal to pass setShowLoginModal */}
+      <CartModal 
+        isOpen={isCartModalOpen} 
+        onClose={() => setIsCartModalOpen(false)} 
+        cartItems={cartItems} 
+        setCartItems={setCartItems}
+        setShowLoginModal={setIsLoginModalOpen} 
+      />
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
     </>
   );
 };

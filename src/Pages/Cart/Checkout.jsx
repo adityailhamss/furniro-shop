@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { IoIosArrowForward } from "react-icons/io";
-import sofa5 from "../../assets/image/products/productsDetail/sofa5.png";
+import { useLocation} from 'react-router-dom';
 import { GoTrophy } from "react-icons/go";
 import { BsPatchCheck } from "react-icons/bs";
 import { FaShippingFast } from "react-icons/fa";
 import { MdOutlineSupportAgent } from "react-icons/md";
-import {Link} from "react-router-dom";
 
-export default function Checkout(){
+export default function Checkout() {
   const [showDescription, setShowDescription] = useState(false);
+  const location = useLocation();
+  const cartItems = location.state?.cartItems || [];
 
+  // Calculate totals
+  const subtotal = cartItems.reduce((total, item) => {
+    const price = parseFloat(item.price.replace(/\./g, ''));
+    return total + (price * item.quantity);
+  }, 0);
+  // Remove login check
+  /* Remove this useEffect
+  useEffect(() => {
+    const userLoggedIn = localStorage.getItem('isLoggedIn');
+    if (!userLoggedIn) {
+      navigate('/login');
+    }
+    setIsLoggedIn(!!userLoggedIn);
+  }, [navigate]);
+  */
   const toggleDescription = () => {
     setShowDescription(!showDescription);
   };
-
-    
-  return(
+  return (
     <>
     <div class="h-[316px] w-full bg-shop flex flex-col justify-center items-center">
       <h1 className="text-center text-4xl font-bold">Checkout</h1>
@@ -24,8 +38,6 @@ export default function Checkout(){
         <p>Checkout</p>
       </div>
     </div>
-
-    
     <div className="flex flex-row justify-evenly py-14 px-14 gap-14">
       <div className="px-2 py-2">
         <h1 className="text-3xl font-bold mb-6">Billing details</h1>
@@ -112,19 +124,21 @@ export default function Checkout(){
       </div>
     
       <div className="p-4 justify-end w-[608px]">
-      <div className="text-xl font-bold mb-4">Product</div>
-      <div className="flex justify-between mb-4">
-        <div>Asgaard sofa x 1</div>
-        <div>Rp. 250,000.00</div>
-      </div>
-      <div className="flex justify-between mb-4">
-        <div>Subtotal</div>
-        <div>Rp. 250,000.00</div>
-      </div>
-      <div className="flex justify-between text-xl font-bold mb-4">
-        <div>Total</div>
-        <div className="text-[#B88E2F]">Rp. 250,000.00</div>
-      </div>
+        <div className="text-xl font-bold mb-4">Product</div>
+        {cartItems.map((item, index) => (
+          <div key={index} className="flex justify-between mb-4">
+            <div>{item.name} x {item.quantity}</div>
+            <div>Rp.{item.price}</div>
+          </div>
+        ))}
+        <div className="flex justify-between mb-4">
+          <div>Subtotal</div>
+          <div>Rp.{subtotal.toLocaleString()}</div>
+        </div>
+        <div className="flex justify-between text-xl font-bold mb-4">
+          <div>Total</div>
+          <div className="text-[#B88E2F]">Rp.{subtotal.toLocaleString()}</div>
+        </div>
       <div className="border-b-2 border-grey-300 my-4"></div>
       <div className="mb-4">
         <div className="flex items-center mb-2 cursor-pointer" onClick={toggleDescription}>

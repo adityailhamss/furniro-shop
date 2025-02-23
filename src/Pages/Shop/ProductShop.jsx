@@ -5,8 +5,11 @@ import { IoMdShare } from "react-icons/io";
 import { GoArrowSwitch } from "react-icons/go";
 import { CiHeart } from "react-icons/ci";
 import { formatPrice } from '../../utils/formatPrice';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ProductShop = ({ addToCart, viewMode, itemsPerPage, sortBy }) => {
+  const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [currentPage, setCurrentPage] = useState(1);
   // Single useEffect for sorting
@@ -40,63 +43,69 @@ const ProductShop = ({ addToCart, viewMode, itemsPerPage, sortBy }) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  // Grid view component
   const GridView = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
       {currentProducts.map((product, index) => (
-        <ProductCard 
-          key={index} 
-          product={{
-            ...product,
-            displayPrice: formatPrice(product.price),
-            displayOriginalPrice: product.originalPrice ? formatPrice(product.originalPrice) : ''
-          }} 
-          addToCart={addToCart} 
-        />
+        <div key={index}>
+          <ProductCard 
+            product={{
+              ...product,
+              displayPrice: formatPrice(product.price),
+              displayOriginalPrice: product.originalPrice ? formatPrice(product.originalPrice) : ''
+            }} 
+            addToCart={addToCart}
+          />
+        </div>
       ))}
     </div>
   );
   const ListView = () => (
     <div className="flex flex-col gap-4 p-6">
       {currentProducts.map((product, index) => (
-        <div key={index} className="flex gap-6 bg-white p-4 rounded-lg shadow-md">
-          <img 
-            src={product.image} 
-            alt={product.name} 
-            className="w-48 h-48 object-cover rounded-md"
-          />
-          <div className="flex flex-col justify-between flex-grow">
-            <div>
-              <h2 className="text-xl font-bold mb-2">{product.name}</h2>
-              <p className="text-gray-600 mb-4">{product.description}</p>
-              <div className="flex gap-2">
-                {product.tags.map((tag) => (
-                  <span key={tag} className="bg-gray-200 px-2 py-1 rounded-full text-sm">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <div className="flex gap-2">
-                <span className="text-xl font-bold">{formatPrice(product.price)}</span>
-                {product.originalPrice && (
-                  <span className="text-gray-400 line-through">{formatPrice(product.originalPrice)}</span>
-                )}
-              </div>
-              <div className="flex gap-4">
-                <button onClick={() => addToCart(product)} className="bg-[#B88E2F] text-white px-4 py-2 rounded">
-                  Add to Cart
-                </button>
+        <Link 
+          to="/productdetails" 
+          state={{ product: product }}
+          key={index}
+          className="no-underline text-inherit"
+        >
+          <div className="flex gap-6 bg-white p-4 rounded-lg shadow-md">
+            <img 
+              src={product.image} 
+              alt={product.name} 
+              className="w-48 h-48 object-cover rounded-md"
+            />
+            <div className="flex flex-col justify-between flex-grow">
+              <div>
+                <h2 className="text-xl font-bold mb-2">{product.name}</h2>
+                <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex gap-2">
-                  <button className="p-2 hover:text-[#B88E2F]"><IoMdShare /></button>
-                  <button className="p-2 hover:text-[#B88E2F]"><GoArrowSwitch /></button>
-                  <button className="p-2 hover:text-[#B88E2F]"><CiHeart /></button>
+                  {product.tags.map((tag) => (
+                    <span key={tag} className="bg-gray-200 px-2 py-1 rounded-full text-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="flex gap-2">
+                  <span className="text-xl font-bold">{formatPrice(product.price)}</span>
+                  {product.originalPrice && (
+                    <span className="text-gray-400 line-through">{formatPrice(product.originalPrice)}</span>
+                  )}
+                </div>
+                <div className="flex gap-4">
+                  <button onClick={() => addToCart(product)} className="bg-[#B88E2F] text-white px-4 py-2 rounded">
+                    Add to Cart
+                  </button>
+                  <div className="flex gap-2">
+                    <button className="p-2 hover:text-[#B88E2F]"><IoMdShare /></button>
+                    <button className="p-2 hover:text-[#B88E2F]"><CiHeart /></button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

@@ -50,3 +50,18 @@ export const addToCartSuccess = () => {
     timer: 1500
   });
 };
+export const showLoginRequiredAlert = (onConfirm) => {
+  MySwal.fire({
+    title: 'Login Required',
+    text: 'Please login to proceed with checkout',
+    icon: 'info',
+    confirmButtonText: 'Login',
+    confirmButtonColor: '#B88E2F',
+    showCancelButton: true,
+    cancelButtonColor: '#6B7280',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      onConfirm();
+    }
+  });
+};

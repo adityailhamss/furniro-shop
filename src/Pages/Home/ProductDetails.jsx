@@ -12,28 +12,33 @@ import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import ProductShop from "../Shop/ProductShop";
 import { addToCartSuccess } from "../../alerts";
-
+import { formatPrice } from "../../utils/formatPrice"; // Fix the import path
 
 export default function ProductDetails({ addToCart }){
   const { state } = useLocation();
   const { product } = state || {};
-  const [count, setCount] = useState(0);
-
+  const [count, setCount] = useState(1); // Start from 1 instead of 0
   const increment = () => {
     setCount(count + 1);
   };
-
   const decrement = () => {
-    setCount(count - 1);
+    if (count > 1) { // Prevent going below 1
+      setCount(count - 1);
+    }
   };
-
   if (!product) {
     return <div>Product not found</div>;
   }
-
   const handleAddToCart = (product) => {
-    addToCart(product);
-    addToCartSuccess(); // Show the success alert
+    const cartProduct = {
+      ...product,
+      quantity: count || 1, // Use count as quantity, default to 1 if count is 0
+      rawPrice: product.price, // Keep original numeric price
+      price: String(product.price), // Convert price to string for cart operations
+      displayPrice: formatPrice(product.price) // Formatted price for display
+    };
+    addToCart(cartProduct);
+    addToCartSuccess();
   };
   return(
     <>
