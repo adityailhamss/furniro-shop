@@ -12,10 +12,13 @@ export default function Checkout() {
   const cartItems = location.state?.cartItems || [];
 
   // Calculate totals
-  const subtotal = cartItems.reduce((total, item) => {
-    const price = parseFloat(item.price.replace(/\./g, ''));
-    return total + (price * item.quantity);
-  }, 0);
+  // Update the subtotal calculation
+    const subtotal = cartItems.reduce((total, item) => {
+      const itemPrice = typeof item.price === 'number' ? item.price : Number(item.price);
+      return total + (itemPrice * (item.quantity || 1));
+    }, 0);
+  // Update the price display in the product list
+  
   // Remove login check
   /* Remove this useEffect
   useEffect(() => {
@@ -128,7 +131,10 @@ export default function Checkout() {
         {cartItems.map((item, index) => (
           <div key={index} className="flex justify-between mb-4">
             <div>{item.name} x {item.quantity}</div>
-            <div>Rp.{item.price}</div>
+            <div>Rp.{typeof item.price === 'number' ? 
+              item.price.toLocaleString() : 
+              Number(item.price).toLocaleString()}
+            </div>
           </div>
         ))}
         <div className="flex justify-between mb-4">

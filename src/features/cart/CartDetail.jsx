@@ -26,12 +26,15 @@ export default function CartDetail() {
   const handleCheckoutClick = () => {
     navigate('/checkout', { state: { cartItems: consolidatedItems } });
   };
+  // Update the calculateSubtotal function
   const calculateSubtotal = (items) => {
     return items.reduce((total, item) => {
-      const price = parseFloat(item.price.replace(/\./g, ''));
-      return total + (price * (item.quantity || 1));
+      const itemPrice = typeof item.price === 'number' ? item.price : Number(item.price);
+      return total + (itemPrice * (item.quantity || 1));
     }, 0);
   };
+  
+  // Update the price display in the table
   
   const subtotal = calculateSubtotal(consolidatedItems);
   
@@ -58,6 +61,7 @@ export default function CartDetail() {
           </thead>
           <tbody className="text-center py-10">
             {consolidatedItems.map((item, index) => (
+              // Update the table row price displays
               <tr key={`${item.id}-${index}`}>
                 <td className="flex flex-row gap-6 items-center">
                   <div className="bg-[#F9F1E7] h-[105px] w-[108px] my-10 rounded-xl">
@@ -65,9 +69,15 @@ export default function CartDetail() {
                   </div>
                   {item.name}
                 </td>
-                <td>Rp.{item.price}</td>
+                <td>Rp.{typeof item.price === 'number' ? 
+                  item.price.toLocaleString() : 
+                  Number(item.price).toLocaleString()}
+                </td>
                 <td>{item.quantity}</td>
-                <td>Rp.{(parseFloat(item.price.replace(/\./g, '')) * item.quantity).toLocaleString()}</td>
+                <td>Rp.{(
+                  (typeof item.price === 'number' ? item.price : Number(item.price)) * 
+                  item.quantity
+                ).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>

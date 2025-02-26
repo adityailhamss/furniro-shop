@@ -6,11 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { addToCartSuccess } from '../../../alerts';
 import { formatPrice } from '../../../utils/formatPrice';
 
-// Add useNavigate to existing imports
-const ProductCard = ({ product, addToCart}) => {
+const ProductCard = ({ product, addToCart }) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
-  
   
   const getTagBackgroundColor = (tag) => {
     switch (tag) {
@@ -24,20 +22,60 @@ const ProductCard = ({ product, addToCart}) => {
     }
   };
   
-  const handleAddToCart = (product) => {
-    const cartProduct = {
-      ...product,
-      displayPrice: formatPrice(product.price),
-      price: String(product.price), // Convert price to string for replace operations
-      quantity: 1
-    };
-    addToCart(cartProduct);
-    addToCartSuccess();
+  const handleAddToCart = () => {
+    try {
+      // Pastikan product dan product.price valid
+      if (!product || product.price == null) {
+        console.error('Product or price is undefined/null:', product);
+        return;
+      }
+  
+      // Konversi harga menjadi angka dengan validasi tipe data
+      const numericPrice = typeof product.price === 'string'
+        ? parseFloat(product.price.replace(/[^\d]/g, ''))
+        : Number(product.price);
+  
+      if (isNaN(numericPrice)) {
+        console.error('Invalid price value:', product.price);
+        return;
+      }
+  
+      const cartProduct = {
+        ...product,
+        price: numericPrice,
+        displayPrice: formatPrice(numericPrice),
+        quantity: 1,
+      };
+  
+      addToCart(cartProduct);
+      addToCartSuccess();
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
   
-  const handleDetailsClick = (product) => {
+  
+  const handleDetailsClick = () => {
     navigate('/productdetails', { state: { product } });
   };
+  
+  const displayPrice = React.useMemo(() => {
+    try {
+      return formatPrice(product.price);
+    } catch (error) {
+      console.error('Error formatting price:', error);
+      return '0';
+    }
+  }, [product.price]);
+
+  const displayOriginalPrice = React.useMemo(() => {
+    try {
+      return product.originalPrice ? formatPrice(product.originalPrice) : null;
+    } catch (error) {
+      console.error('Error formatting original price:', error);
+      return null;
+    }
+  }, [product.originalPrice]);
   
   return (
     <div
@@ -52,17 +90,17 @@ const ProductCard = ({ product, addToCart}) => {
           <p className="text-gray-700 text-base">{product.description}</p>
           <div className="flex flex-row gap-3">
             <div className="flex gap-2">
-              <span className="text-xl font-bold">{formatPrice(product.price)}</span>
-              {product.originalPrice && (
+              <span className="text-xl font-bold">{displayPrice}</span>
+              {displayOriginalPrice && (
                 <span className="text-gray-400 line-through">
-                  {formatPrice(product.originalPrice)}
+                  {displayOriginalPrice}
                 </span>
               )}
             </div>
           </div>
         </div>
         <div className="px-6 pt-4 pb-2">
-          {product.tags.map((tag) => (
+          {product.tags && product.tags.map((tag) => (
             <span key={tag} className={`absolute top-0 right-0 ${getTagBackgroundColor(tag)} text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mt-2`}>
               {tag}
             </span>
@@ -71,10 +109,13 @@ const ProductCard = ({ product, addToCart}) => {
       </div>
       {isHovered && (
         <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex flex-col justify-center items-center text-white">
-          <button onClick={() => handleDetailsClick(product)} className="mb-2 bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          <button onClick={handleDetailsClick} className="mb-2 bg-blue-600 text-white font-bold py-2 px-4 rounded">
             Detail
           </button>
-          <button onClick={() => handleAddToCart(product)} className="mb-2 bg-white text-[#B88E2F] font-bold py-2 px-4 rounded">
+          <button 
+            onClick={handleAddToCart} 
+            className="mb-2 bg-white text-[#B88E2F] font-bold py-2 px-4 rounded"
+          >
             Add to cart
           </button>
           <div className="flex flex-row gap-4">

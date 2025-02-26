@@ -28,17 +28,19 @@ export default function Explore() {
 
         {/* Bagian Kanan - Slider */}
         <div className="w-full lg:w-2/3 px-4">
-          <Slider {...sliderSettings} className="explore-slider">
-            {images.map((image, index) => (
-              <div key={index} className="px-2">
-                <img
-                  src={image}
-                  alt={`Explore ${index + 1}`}
-                  className="w-full h-[250px] md:h-[350px] lg:h-[400px] object-cover rounded-lg shadow-md"
-                />
-              </div>
-            ))}
-          </Slider>
+          <div className="px-12 relative">
+            <Slider {...sliderSettings} className="explore-slider">
+              {images.map((image, index) => (
+                <div key={index} className="px-2">
+                  <img
+                    src={image}
+                    alt={`Explore ${index + 1}`}
+                    className="w-full h-[250px] md:h-[350px] lg:h-[400px] object-cover rounded-lg shadow-md"
+                  />
+                </div>
+              ))}
+            </Slider>
+          </div>
         </div>
       </div>
     </section>

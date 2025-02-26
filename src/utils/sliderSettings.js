@@ -29,12 +29,11 @@ export const sliderSettings = {
   ],
 };
 
-// Custom Button untuk Navigasi Slider
 function NextArrow({ onClick }) {
   return (
     <button
       onClick={onClick}
-      className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-[#B88E2F] text-white p-2 rounded-full shadow-lg hover:bg-[#a17a25] transition"
+      className="absolute top-1/2 -right-12 transform -translate-y-1/2 bg-[#B88E2F] text-white p-2 rounded-full shadow-lg hover:bg-[#a17a25] transition z-10"
     >
       <FaChevronRight size={20} />
     </button>
@@ -45,7 +44,7 @@ function PrevArrow({ onClick }) {
   return (
     <button
       onClick={onClick}
-      className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-[#B88E2F] text-white p-2 rounded-full shadow-lg hover:bg-[#a17a25] transition"
+      className="absolute top-1/2 -left-12 transform -translate-y-1/2 bg-[#B88E2F] text-white p-2 rounded-full shadow-lg hover:bg-[#a17a25] transition z-10"
     >
       <FaChevronLeft size={20} />
     </button>

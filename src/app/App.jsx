@@ -15,24 +15,33 @@ function App() {
 
   useEffect(() => {
     AOS.init({ duration: 1200, once: true });
-
     const timer = setTimeout(() => {
       updateLoad(false);
     }, 1200);
-
     return () => clearTimeout(timer);
   }, []);
-  
-  
+  const handleAddToCart = (product) => {
+    setCartItems(prevCart => {
+      const existingItem = prevCart.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
+  };
 
   return (
     <CartProvider>
       <Router>
         <Preloader load={load} />
-        <Navbar cartItems={cartItems} setCartItems={setCartItems}/>
+        <Navbar cartItems={cartItems} setCartItems={setCartItems} />
         <div className="scroll-smooth">
           <ScrollToTop />
-          <AppRoutes />
+          <AppRoutes addToCart={handleAddToCart} cartItems={cartItems} />
         </div>
         <Footer />
       </Router>

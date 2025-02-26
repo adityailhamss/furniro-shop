@@ -3,21 +3,36 @@ import Modal from '../../../../components/common/Modal';
 import { IoIosCloseCircle } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
 import { showDeleteConfirmation } from '../../../../alerts';
+import { useMemo } from 'react';
 
 const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
   const navigate = useNavigate();
+  
+  // Add debug logging
+  console.log('Raw cartItems:', cartItems);
+  
+  const consolidatedItems = useMemo(() => {
+    console.log('Starting consolidation with:', cartItems);
+    if (!cartItems?.length) return [];
+    
+    return cartItems.map(item => ({
+      ...item,
+      quantity: Number(item.quantity)
+    }));
+  }, [cartItems]);
+  // Move subtotal calculation into useMemo as well
+  const subtotal = useMemo(() => {
+    if (!consolidatedItems.length) return 0;
+    
+    return consolidatedItems.reduce((total, item) => {
+      const price = typeof item.price === 'string' 
+        ? parseFloat(item.price.replace(/\./g, ''))
+        : Number(item.price);
+      return total + (price * item.quantity);
+    }, 0);
+  }, [consolidatedItems]);
+
   if (!isOpen) return null;
-
-  const consolidatedItems = cartItems.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.id === item.id);
-    if (existingItem) {
-      existingItem.quantity += item.quantity;
-    } else {
-      acc.push({ ...item });
-    }
-    return acc;
-  }, []);
-
   const handleCheckoutClick = () => {
     // Use navigate with replace option to ensure direct navigation
     navigate('/checkout', { 
@@ -44,10 +59,16 @@ const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
     });
   };
   // Update subtotal calculation
-  const subtotal = consolidatedItems.length > 0 ? consolidatedItems.reduce((total, item) => {
-    const price = parseFloat(item.price.replace(/\./g, ''));
-    return total + (price * item.quantity);
-  }, 0) : 0;
+  // const subtotal = consolidatedItems.length > 0 ? consolidatedItems.reduce((total, item) => {
+  //   console.log('Processing item for subtotal:', item);
+  //   const price = typeof item.price === 'string' 
+  //     ? parseFloat(item.price.replace(/\./g, ''))
+  //     : Number(item.price);
+    
+  //   console.log('Calculated price:', price);
+  //   return total + (price * item.quantity);
+  // }, 0) : 0;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col h-full">
@@ -59,7 +80,11 @@ const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
               <img src={item.image} alt={item.name} className="w-24 h-24 object-cover" />
               <div className="flex flex-col flex-grow">
                 <h1>{item.name}</h1>
-                <p className="text-[#B88E2F]">{item.quantity} X Rp.{item.price}</p>
+                <p className="text-[#B88E2F]">
+                  {item.quantity} X Rp.{typeof item.price === 'number' 
+                    ? item.price.toLocaleString() 
+                    : item.price}
+                </p>
               </div>
               <button onClick={() => handleDelete(item.id)} className="text-gray-500 hover:text-gray-700 pr-4">
                 <IoIosCloseCircle size={24} />

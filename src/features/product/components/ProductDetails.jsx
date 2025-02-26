@@ -30,13 +30,14 @@ export default function ProductDetails({ addToCart }){
     return <div>Product not found</div>;
   }
   const handleAddToCart = (product) => {
+    console.log('Adding to cart with quantity:', count); // Debug log
     const cartProduct = {
       ...product,
-      quantity: count || 1, // Use count as quantity, default to 1 if count is 0
-      rawPrice: product.price, // Keep original numeric price
-      price: String(product.price), // Convert price to string for cart operations
-      displayPrice: formatPrice(product.price) // Formatted price for display
+      quantity: Number(count), // Ensure count is a number
+      rawPrice: product.price,
+      price: typeof product.price === 'number' ? product.price : Number(product.price)
     };
+    console.log('Cart product:', cartProduct); // Debug log
     addToCart(cartProduct);
     addToCartSuccess();
   };
@@ -113,9 +114,11 @@ export default function ProductDetails({ addToCart }){
             +
           </button>
            </div>
-
-          <button onClick={() => handleAddToCart(product)} className="bg-white rounded-lg px-4 py-4 border-2 border-black hover:border-[#9F9F9F] flex justify-between items-center text-xl hover:text-[#B88E2F]">
-            Add To Cart
+          <button 
+            onClick={() => handleAddToCart(product)} 
+            className="bg-white rounded-lg px-4 py-4 border-2 border-black hover:border-[#9F9F9F] flex justify-between items-center text-xl hover:text-[#B88E2F]"
+          >
+            Add To Cart ({count})
           </button>
           {/* <div className="bg-white rounded-lg px-2 py-2 border-2 border-black hover:border-[#9F9F9F] flex justify-between items-center">
             <h1 className="text-2xl px-4" >+ Compare</h1>
