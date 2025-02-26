@@ -1,5 +1,6 @@
 import { Disclosure } from '@headlessui/react';
 import { NavLink } from 'react-router-dom';
+import IconSection from './IconSection';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -8,7 +9,7 @@ const navigation = [
   { name: 'Contact', href: '/contact' },
 ];
 
-const MobileMenu = () => {
+const MobileMenu = ({ setIsLoginModalOpen }) => {
   return (
     <Disclosure.Panel className="lg:hidden">
       <div className="space-y-1 px-2 pb-3 pt-2">
@@ -25,9 +26,12 @@ const MobileMenu = () => {
             {item.name}
           </NavLink>
         ))}
+        <div className="border-t border-gray-200 mt-2 pt-2">
+          <IconSection isMobile={true} setIsLoginModalOpen={setIsLoginModalOpen} />
+        </div>
       </div>
     </Disclosure.Panel>
   );
 };
 
-export default MobileMenu; //
+export default MobileMenu;

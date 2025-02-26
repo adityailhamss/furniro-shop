@@ -10,10 +10,18 @@ const navigation = [
 
 const NavigationMenu = () => {
   return (
-    <div className="hidden lg:block lg:ml-auto">
-      <div className="flex space-x-8">
+    <div className="hidden lg:flex lg:flex-1">
+      <div className="flex justify-center items-center space-x-12">
         {navigation.map((item) => (
-          <NavLink key={item.name} to={item.href} className="px-3 py-2 text-sm font-semibold rounded-md hover:text-[#B88E2F]">
+          <NavLink 
+            key={item.name} 
+            to={item.href} 
+            className={({ isActive }) =>
+              `px-3 py-2 text-sm font-semibold rounded-md ${
+                isActive ? 'text-[#B88E2F]' : 'hover:text-[#B88E2F]'
+              }`
+            }
+          >
             {item.name}
           </NavLink>
         ))}

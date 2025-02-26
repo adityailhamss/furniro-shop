@@ -24,18 +24,27 @@ const Navbar = ({ cartItems, setCartItems }) => {
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div className="relative flex h-16 items-center justify-between">
-                <MobileMenuButton open={open} />
-                <LogoSection />
-                <NavigationMenu />
-                <IconSection
-                  cartItems={cartItems}
-                  setIsCartModalOpen={setIsCartModalOpen}
-                  setIsLoginModalOpen={setIsLoginModalOpen}
-                />
+              <div className="relative flex h-16 items-center">
+                <div className="flex-1 flex items-center justify-start lg:hidden">
+                  <MobileMenuButton open={open} />
+                </div>
+                <div className="flex-1 flex items-center justify-start">
+                  <LogoSection />
+                </div>
+                <div className="flex-1 flex items-center justify-center">
+                  <NavigationMenu />
+                </div>
+                <div className="flex-1 flex items-center justify-end">
+                  <IconSection
+                    cartItems={cartItems}
+                    setIsCartModalOpen={setIsCartModalOpen}
+                    setIsLoginModalOpen={setIsLoginModalOpen}
+                    isMobile={false}
+                  />
+                </div>
               </div>
             </div>
-            <MobileMenu />
+            <MobileMenu setIsLoginModalOpen={setIsLoginModalOpen} />
           </>
         )}
       </Disclosure>
