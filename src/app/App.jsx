@@ -5,13 +5,13 @@ import Footer from "../features/footer/Footer";
 import Preloader from "../components/common/Pre";
 import ScrollToTop from "../components/common/ScrollToTop";
 import AppRoutes from "./AppRoutes";
-import { CartProvider } from "../context/cart/CartContext";
+import { CartProvider, useCart } from "../context/cart/CartContext";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-function App() {
+function AppContent() {
   const [load, updateLoad] = useState(true);
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, setCartItems, addToCart } = useCart();
 
   useEffect(() => {
     AOS.init({ duration: 1200, once: true });
@@ -20,31 +20,24 @@ function App() {
     }, 1200);
     return () => clearTimeout(timer);
   }, []);
-  const handleAddToCart = (product) => {
-    setCartItems(prevCart => {
-      const existingItem = prevCart.find(item => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
-  };
 
   return (
+    <Router>
+      <Preloader load={load} />
+      <Navbar cartItems={cartItems} setCartItems={setCartItems} />
+      <div className="scroll-smooth">
+        <ScrollToTop />
+        <AppRoutes addToCart={addToCart} cartItems={cartItems} />
+      </div>
+      <Footer />
+    </Router>
+  );
+}
+
+function App() {
+  return (
     <CartProvider>
-      <Router>
-        <Preloader load={load} />
-        <Navbar cartItems={cartItems} setCartItems={setCartItems} />
-        <div className="scroll-smooth">
-          <ScrollToTop />
-          <AppRoutes addToCart={handleAddToCart} cartItems={cartItems} />
-        </div>
-        <Footer />
-      </Router>
+      <AppContent />
     </CartProvider>
   );
 }

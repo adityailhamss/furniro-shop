@@ -33,9 +33,11 @@ export default function ProductDetails({ addToCart }){
     console.log('Adding to cart with quantity:', count); // Debug log
     const cartProduct = {
       ...product,
-      quantity: Number(count), // Ensure count is a number
+      id: product.id,
+      quantity: count, // Use count directly
       rawPrice: product.price,
-      price: typeof product.price === 'number' ? product.price : Number(product.price)
+      price: product.price, // Keep price as number
+      displayPrice: formatPrice(product.price) // Add formatted price for display
     };
     console.log('Cart product:', cartProduct); // Debug log
     addToCart(cartProduct);

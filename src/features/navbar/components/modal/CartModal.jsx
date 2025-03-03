@@ -8,27 +8,36 @@ import { useMemo } from 'react';
 const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
   const navigate = useNavigate();
   
-  // Add debug logging
-  console.log('Raw cartItems:', cartItems);
-  
   const consolidatedItems = useMemo(() => {
-    console.log('Starting consolidation with:', cartItems);
     if (!cartItems?.length) return [];
     
-    return cartItems.map(item => ({
+    console.log('Consolidating cart items, cartItems:', cartItems);
+    
+    // Group items by ID and sum their quantities
+    const groupedItems = cartItems.reduce((acc, item) => {
+      const id = item.id;
+      if (!acc[id]) {
+        acc[id] = { ...item };
+      } else {
+        // Replace the existing item with the new one (which has the updated quantity)
+        acc[id] = { ...item };
+      }
+      return acc;
+    }, {});
+    return Object.values(groupedItems).map(item => ({
       ...item,
-      quantity: Number(item.quantity)
+      quantity: Number(item.quantity || 1),
+      price: Number(item.price)
     }));
   }, [cartItems]);
-  // Move subtotal calculation into useMemo as well
+  
   const subtotal = useMemo(() => {
     if (!consolidatedItems.length) return 0;
     
     return consolidatedItems.reduce((total, item) => {
-      const price = typeof item.price === 'string' 
-        ? parseFloat(item.price.replace(/\./g, ''))
-        : Number(item.price);
-      return total + (price * item.quantity);
+      const price = Number(item.price);
+      const quantity = Number(item.quantity || 1);
+      return total + (price * quantity);
     }, 0);
   }, [consolidatedItems]);
 
@@ -41,33 +50,12 @@ const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
     });
     onClose();
   };
-  // Alternative approach using Link component
-  // Replace the button with Link if navigate doesn't work
-  /*
-  <Link to="/checkout" state={{ cartItems: consolidatedItems }}>
-    <button 
-      onClick={onClose}
-      className="bg-white hover:bg-[#B88E2F] hover:text-white text-black py-2 px-6 rounded-full ring-2 ring-gray-600"
-    >
-      Checkout
-    </button>
-  </Link>
-  */
+
   const handleDelete = (id) => {
     showDeleteConfirmation(() => {
       setCartItems(cartItems.filter(item => item.id !== id));
     });
   };
-  // Update subtotal calculation
-  // const subtotal = consolidatedItems.length > 0 ? consolidatedItems.reduce((total, item) => {
-  //   console.log('Processing item for subtotal:', item);
-  //   const price = typeof item.price === 'string' 
-  //     ? parseFloat(item.price.replace(/\./g, ''))
-  //     : Number(item.price);
-    
-  //   console.log('Calculated price:', price);
-  //   return total + (price * item.quantity);
-  // }, 0) : 0;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
