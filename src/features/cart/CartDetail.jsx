@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { GoTrophy } from "react-icons/go";
-import { BsPatchCheck } from "react-icons/bs";
-import { FaShippingFast } from "react-icons/fa";
-import { MdOutlineSupportAgent } from "react-icons/md";
+import FeaturesSection from '../../components/common/FeaturesSection';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LoginModal from '../navbar/components/modal/LoginModal';
 // import { showLoginRequiredAlert } from '../../alerts';
@@ -40,41 +37,40 @@ export default function CartDetail() {
   
   return (
     <>
-    <div class="h-[316px] w-full bg-shop flex flex-col justify-center items-center">
-      <h1 className="text-center text-4xl font-bold">Cart</h1>
+    <div className="h-[200px] md:h-[316px] w-full bg-shop flex flex-col justify-center items-center">
+      <h1 className="text-center text-2xl md:text-4xl font-bold">Cart</h1>
       <div className="flex flex-row gap-2 items-center mt-2">
-        <h1>Home</h1><IoIosArrowForward />
-        <p>Cart</p>
+        <h1 className="text-sm md:text-base">Home</h1><IoIosArrowForward />
+        <p className="text-sm md:text-base">Cart</p>
       </div>
     </div>
   
-    <div className="flex flex-row justify-center gap-10 py-16">
-      <div className="flex gap-8">
-        <table className="table-auto h-[215px] w-[817px] justify-center">
+    <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-10 py-8 md:py-16 px-4 md:px-[100px]">
+      <div className="w-full overflow-x-auto">
+        <table className="table-auto min-w-full md:w-[817px] justify-center">
           <thead>
-            <tr className="bg-[#F9F1E7] h-[55px] w-[817px]">
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Subtotal</th>
+            <tr className="bg-[#F9F1E7] h-[55px]">
+              <th className="px-2 md:px-4">Product</th>
+              <th className="px-2 md:px-4">Price</th>
+              <th className="px-2 md:px-4">Quantity</th>
+              <th className="px-2 md:px-4">Subtotal</th>
             </tr>
           </thead>
-          <tbody className="text-center py-10">
+          <tbody className="text-center">
             {consolidatedItems.map((item, index) => (
-              // Update the table row price displays
               <tr key={`${item.id}-${index}`}>
-                <td className="flex flex-row gap-6 items-center">
-                  <div className="bg-[#F9F1E7] h-[105px] w-[108px] my-10 rounded-xl">
-                    <img src={item.image} alt={item.name}/>
+                <td className="flex flex-col md:flex-row gap-2 md:gap-6 items-center p-2 md:p-4 pl-8">
+                  <div className="bg-[#F9F1E7] h-[80px] w-[80px] md:h-[105px] md:w-[108px] my-2 md:my-10 rounded-xl">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-xl"/>
                   </div>
-                  {item.name}
+                  <span className="text-sm md:text-base text-center md:text-left">{item.name}</span>
                 </td>
-                <td>Rp.{typeof item.price === 'number' ? 
+                <td className="text-sm md:text-base">Rp.{typeof item.price === 'number' ? 
                   item.price.toLocaleString() : 
                   Number(item.price).toLocaleString()}
                 </td>
-                <td>{item.quantity}</td>
-                <td>Rp.{(
+                <td className="text-sm md:text-base">{item.quantity}</td>
+                <td className="text-sm md:text-base">Rp.{(
                   (typeof item.price === 'number' ? item.price : Number(item.price)) * 
                   item.quantity
                 ).toLocaleString()}</td>
@@ -84,56 +80,21 @@ export default function CartDetail() {
         </table>
       </div>
   
-      <div className="bg-[#F9F1E7] px-12 py-4 text-center">
-        <h1 className="text-2xl font-bold mb-10">Cart Totals</h1>
-        <p className="font-semibold mb-4">Subtotal: Rp.{subtotal.toLocaleString()}</p>
-        <p className="font-semibold mb-4 text-[#B88E2F]">Total: Rp.{subtotal.toLocaleString()}</p>
+      <div className="bg-[#F9F1E7] px-6 md:px-12 py-4 text-center w-full md:w-auto">
+        <h1 className="text-xl md:text-2xl font-bold mb-6 md:mb-10">Cart Totals</h1>
+        <p className="font-semibold mb-4 text-sm md:text-base">Subtotal: Rp.{subtotal.toLocaleString()}</p>
+        <p className="font-semibold mb-4 text-sm md:text-base text-[#B88E2F]">Total: Rp.{subtotal.toLocaleString()}</p>
         <button 
           onClick={handleCheckoutClick}
-          className="rounded-xl border-2 border-black hover:bg-[#B88E2F] hover:text-white px-4 py-2 my-6"
+          className="w-full md:w-auto rounded-xl border-2 border-black hover:bg-[#B88E2F] hover:text-white px-4 py-2 my-6"
         >
           Check Out
         </button>
       </div>
     </div>
-  
-    <div className="bg-[#F9F1E7] h-[270px] w-full content-center">
-      <div className="flex flex-row justify-center gap-20 items-center">
-        
-        <div className="flex items-center gap-4">
-        <GoTrophy size={50}/>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl">High Quality</h1>
-          <h2 className="font-light text-base">Crafted from top materials</h2>
-        </div>
-        </div>
-  
-        <div className="flex items-center gap-4">
-        <BsPatchCheck size={50}/>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl">Warranty Protection</h1>
-          <h2 className="font-light text-base">Over 2 years</h2>
-        </div>
-        </div>
-  
-        <div className="flex items-center gap-4">
-        <FaShippingFast size={50}/>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl">Free Shipping</h1>
-          <h2 className="font-light text-base">Order over 150 $</h2>
-        </div>
-        </div>
-  
-        <div className="flex items-center gap-4">
-        <MdOutlineSupportAgent size={50}/>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl">24 / 7 Support</h1>
-          <h2 className="font-light text-base">Dedicated support</h2>
-        </div>
-        </div>
-  
-      </div>
-    </div>
+  {/* Replace the features section with: */}
+    <FeaturesSection />
+      
       <LoginModal 
         isOpen={isLoginModalOpen} 
         onClose={() => setIsLoginModalOpen(false)} 
