@@ -61,7 +61,7 @@ export default function CartDetail() {
               <tr key={`${item.id}-${index}`}>
                 <td className="flex flex-col md:flex-row gap-2 md:gap-6 items-center p-2 md:p-4 pl-8">
                   <div className="bg-[#F9F1E7] h-[80px] w-[80px] md:h-[105px] md:w-[108px] my-2 md:my-10 rounded-xl">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-xl"/>
+                    <img src={item.image_url} alt={item.name} className="w-full h-full object-cover rounded-xl"/>
                   </div>
                   <span className="text-sm md:text-base text-center md:text-left">{item.name}</span>
                 </td>

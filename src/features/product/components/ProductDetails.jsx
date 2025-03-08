@@ -67,7 +67,7 @@ export default function ProductDetails({ addToCart }){
         </div>
         {/* Main product image */}
         <div className="bg-[#F9F1E7] rounded-xl w-full md:w-[500px] h-[300px] md:h-[500px] flex justify-center">
-          <img src={product.image} className="px-2 py-6 object-contain" alt={product.name}/>
+          <img src={product.image_url} className="px-2 py-6 object-contain" alt={product.name}/>
         </div>
         {/* Product details */}
         <div className="flex flex-col gap-4 px-4 md:pl-6">
@@ -75,9 +75,9 @@ export default function ProductDetails({ addToCart }){
           <p className="text-2xl md:text-3xl text-[#9F9F9F]">Rp. {product.price}</p>
           
           <div className="card flex flex-wrap justify-content-center items-center gap-2">
-            <Rating value={product.review} readOnly cancel={false} className="text-[#FFC700]"/>
+            <Rating value={product.avg_rating} readOnly cancel={false} className="text-[#FFC700]"/>
             <div className="hidden md:block ml-4 border-l-2 h-[35px] border-gray-400 mr-4"></div>
-            <h1 className="text-center text-sm md:text-base">{product.countReview} Customer Review</h1>
+            <h1 className="text-center text-sm md:text-base">{product.review_count} Customer Review</h1>
           </div>
           <h1 className="w-full md:w-[424px] text-sm md:text-base">{product.moreDescription}</h1>
           {/* Size selector */}
@@ -135,7 +135,7 @@ export default function ProductDetails({ addToCart }){
       <div className="flex flex-wrap gap-4 md:gap-8 justify-center my-4 md:my-8">
         <h1 className="text-xl md:text-2xl hover:font-semibold font-light">Description</h1>
         <h1 className="text-xl md:text-2xl hover:font-semibold font-light">Additional Information</h1>
-        <h1 className="text-xl md:text-2xl hover:font-semibold font-light">Reviews [5]</h1>
+        <h1 className="text-xl md:text-2xl hover:font-semibold font-light">Reviews {product.review_count}</h1>
       </div>
       <p className="w-full md:w-[1026px] font-light mb-4 md:mb-6 text-sm md:text-base px-4 md:px-0">
         Embodying the raw, wayward spirit of rock 'n' roll...

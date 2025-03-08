@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductCard from './components/ProductCard';
-import products from '../../data/productData';
+// import products from '../../data/productData';
 import { formatPrice } from '../../utils/formatPrice';
+import { supabase } from '../../utils/supabaseClient';
+
+const fetchProducts = async () => {
+  const { data, error } = await supabase.rpc("get_products_with_details");
+
+  if (error) console.error("Error fetching products:", error);
+  return data;
+};
 
 const Products = ({ addToCart }) => {
   const [visibleCount, setVisibleCount] = useState(8);
@@ -43,6 +51,16 @@ const Products = ({ addToCart }) => {
     setVisibleCount(showAll ? 8 : products.length);
     setShowAll(!showAll);
   };
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      const result = await fetchProducts();
+      setProducts(result || []);
+    };
+    loadProducts();
+  }, [fetchProducts]);
 
   return (
     <div className="container mx-auto px-4 items-center flex flex-col" data-aos="fade-up">

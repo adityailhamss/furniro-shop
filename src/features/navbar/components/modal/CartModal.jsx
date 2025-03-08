@@ -17,7 +17,9 @@ const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
     const groupedItems = cartItems.reduce((acc, item) => {
       const id = item.id;
       if (!acc[id]) {
-        acc[id] = { ...item };
+        acc[id] = acc[id]
+        ? { ...item, quantity: acc[id].quantity + item.quantity }
+        : { ...item };
       } else {
         // Replace the existing item with the new one (which has the updated quantity)
         acc[id] = { ...item };
@@ -65,7 +67,7 @@ const CartModal = ({ isOpen, onClose, cartItems, setCartItems }) => {
         <div className="flex-grow flex flex-col gap-6 overflow-auto">
           {consolidatedItems.map(item => (
             <div key={item.id} className="flex flex-row items-center gap-6">
-              <img src={item.image} alt={item.name} className="w-24 h-24 object-cover" />
+              <img src={item.image_url} alt={item.name} className="w-24 h-24 object-cover" />
               <div className="flex flex-col flex-grow">
                 <h1>{item.name}</h1>
                 <p className="text-[#B88E2F]">

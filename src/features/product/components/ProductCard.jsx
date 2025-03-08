@@ -12,10 +12,10 @@ const ProductCard = ({ product, addToCart }) => {
   
   const getTagBackgroundColor = (tag) => {
     switch (tag) {
-      case 'New':
+      case 'NEW':
         return 'bg-green-500';
-      case '-30%':
-      case '-50%':
+      case '30%':
+      case '50%':
         return 'bg-red-500';
       default:
         return 'bg-gray-500';
@@ -70,12 +70,12 @@ const ProductCard = ({ product, addToCart }) => {
 
   const displayOriginalPrice = React.useMemo(() => {
     try {
-      return product.originalPrice ? formatPrice(product.originalPrice) : null;
+      return product.original_price ? formatPrice(product.original_price) : null;
     } catch (error) {
       console.error('Error formatting original price:', error);
       return null;
     }
-  }, [product.originalPrice]);
+  }, [product.original_price]);
   
   return (
     <div
@@ -84,7 +84,7 @@ const ProductCard = ({ product, addToCart }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="cursor-default">
-        <img className="w-full" src={product.image} alt={product.name} />
+        <img className="w-full" src={product.image_url} alt={product.name} />
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">{product.name}</div>
           <p className="text-gray-700 text-base">{product.description}</p>
@@ -100,7 +100,7 @@ const ProductCard = ({ product, addToCart }) => {
           </div>
         </div>
         <div className="px-6 pt-4 pb-2">
-          {product.tags && product.tags.map((tag) => (
+          {product.tag_names && product.tag_names.split(',').map((tag) => (
             <span key={tag} className={`absolute top-0 right-0 ${getTagBackgroundColor(tag)} text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mt-2`}>
               {tag}
             </span>
@@ -108,13 +108,13 @@ const ProductCard = ({ product, addToCart }) => {
         </div>
       </div>
       {isHovered && (
-        <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex flex-col justify-center items-center text-white">
-          <button onClick={handleDetailsClick} className="mb-2 bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        <div className="absolute inset-0 bg-gray-800/50 flex flex-col justify-center items-center text-white ">
+          <button onClick={handleDetailsClick} className="mb-2 bg-blue-600 text-white font-bold py-2 px-4 rounded cursor-pointer ...">
             Detail
           </button>
           <button 
             onClick={handleAddToCart} 
-            className="mb-2 bg-white text-[#B88E2F] font-bold py-2 px-4 rounded"
+            className="mb-2 bg-white text-[#B88E2F] font-bold py-2 px-4 rounded cursor-pointer ..."
           >
             Add to cart
           </button>
