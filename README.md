@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# 🛍️ Furniro App (Vite + Supabase)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Proyek ini adalah aplikasi e-commerce berbasis **React** yang telah dimigrasi dari **Create React App (CRA)** ke **Vite** untuk performa yang lebih cepat. Aplikasi ini menggunakan **Supabase** untuk autentikasi pengguna dan pengelolaan data produk.
 
-## Available Scripts
+## ✨ Fitur
 
-In the project directory, you can run:
+- 🔥 **Migrasi ke Vite**: Build lebih cepat dan ringan.
+- 🛒 **Pengelolaan Produk**: Mengambil dan menampilkan data produk dari Supabase.
+- 🔐 **Autentikasi Pengguna**: Login, register, dan logout menggunakan Supabase Auth.
+- 📊 **Optimasi Kinerja**: Lebih ringan dengan Vite dan environment variables terpisah.
 
-### `npm start`
+## 📦 Teknologi yang Digunakan
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [React](https://react.dev) – UI Framework
+- [Vite](https://vitejs.dev) – Build Tool
+- [Supabase](https://supabase.io) – Backend-as-a-Service (BaaS) untuk autentikasi dan database
+- [Tailwind CSS](https://tailwindcss.com) – Styling
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Instalasi dan Menjalankan Proyek
 
-### `npm test`
+### Prasyarat
+- Node.js >= 18.x
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. Clone Repository
+```bash
+git clone https://github.com/adityailhamss/furniro-shop.git
+cd repo
+```
 
-### `npm run build`
+### 2. Instal Dependensi
+```bash
+npm install
+# atau
+pnpm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. Konfigurasi Environment Variables
+Buat file `.env` di root proyek dan tambahkan:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 4. Menjalankan Aplikasi
+```bash
+npm run dev
+```
+Akses di: `http://localhost:5173`
 
-### `npm run eject`
+## 📚 Struktur Proyek
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+.
+├── public/            # Static assets
+├── src/
+│    ├── components/  # Reusable components
+│    ├── pages/       # Route pages
+│    ├── services/    # API calls (Supabase)
+│    ├── App.jsx      # Root component
+│    └── main.jsx     # Entry point
+└── vite.config.js    # Vite configuration
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📜 Skrip Penting
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Perintah          | Deskripsi                   |
+|-------------------|-----------------------------|
+| `npm run dev`     | Menjalankan development server |
+| `npm run build`   | Build untuk production         |
+| `npm run preview` | Pratinjau hasil build          |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📢 Kontribusi
 
-## Learn More
+Kontribusi sangat diterima! Ikuti langkah berikut:
+1. Fork repository ini.
+2. Buat branch baru (`git checkout -b feature/fitur-baru`).
+3. Commit perubahan (`git commit -m "feat: tambahkan fitur baru"`).
+4. Push branch (`git push origin feature/fitur-baru`).
+5. Buat Pull Request.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📄 Lisensi
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
